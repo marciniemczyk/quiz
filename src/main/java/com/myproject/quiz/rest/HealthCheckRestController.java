@@ -1,5 +1,6 @@
 package com.myproject.quiz.rest;
 
+import com.myproject.quiz.dto.HealthCheckDto;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HealthCheckRestController {
 
     @GetMapping
-    public String healthCheck() {
-        return "It's working!";
+    public HealthCheckDto healthCheck() {
+        return new HealthCheckDto(true, "It's working!");
     }
 }
