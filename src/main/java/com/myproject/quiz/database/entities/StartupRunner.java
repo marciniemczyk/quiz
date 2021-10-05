@@ -1,6 +1,7 @@
 package com.myproject.quiz.database.entities;
 
 import com.myproject.quiz.database.repositories.PlayerRepository;
+import com.myproject.quiz.services.QuizDataService;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -14,11 +15,9 @@ import java.util.List;
 public class StartupRunner implements CommandLineRunner {
 
     @Autowired
-    private final PlayerRepository playerRepository;
-
-    public StartupRunner(PlayerRepository playerRepository) {
-        this.playerRepository = playerRepository;
-    }
+    private PlayerRepository playerRepository;
+    @Autowired
+    private QuizDataService quizDataService;
 
     @Override
     @Transactional
@@ -34,5 +33,7 @@ public class StartupRunner implements CommandLineRunner {
         for (PlayerEntity player : playersFromDatabase) {
             log.info("Retrieved player: " + player);
         }
+
+        quizDataService.getQuizCategories();
     }
 }
