@@ -1,5 +1,6 @@
 package com.myproject.quiz.services;
 
+import com.myproject.quiz.frontend.Difficulty;
 import lombok.Getter;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import com.myproject.quiz.frontend.GameOptions;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Log
@@ -30,11 +32,23 @@ public class OngoingGameService {
         this.currentQuestionIndex = 0;
         this.points = 0;
 
-        quizDataService.getQuizQuestions(gameOptions);
+        this.questions = quizDataService.getQuizQuestions(gameOptions);
+    }
+
+    public Difficulty getDifficulty() {
+        return gameOptions.getDifficulty();
+    }
+
+    public String getCategoryName() {
+        Optional<String> category = quizDataService.getQuizCategories().stream()
+                .filter(categoryDto -> categoryDto.getId() == gameOptions.getCategoryId())
+                .map(categoryDto -> categoryDto.getName())
+                .findAny();
+        return category.orElse(null);
     }
 
     public int getCurrentQuestionNumber() {
-        return currentQuestionIndex+1;
+        return currentQuestionIndex + 1;
     }
 
     public int getTotalQuestionNumber() {
